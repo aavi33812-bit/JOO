@@ -1,199 +1,127 @@
+<?php
+// Simple self-introduction page with PHP processing.
+// Save this file as `self_intro.php` and serve it with a PHP-capable server
+// (e.g., GitHub Pages does NOT support PHP — use a local PHP server, XAMPP, or deploy to Heroku/Render).
+//
+// Basic usage:
+// 1. Place this file in your PHP server document root.
+// 2. Visit http://localhost/self_intro.php (or the path where you put it).
+//
+// The form lets you enter your details; on submit the page shows a styled introduction.
+
+function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
+
+$defaults = [
+    'name' => 'Your Name',
+    'role' => 'Your Role (e.g., Web Developer)',
+    'location' => 'City, Country',
+    'bio' => "A short sentence about yourself. For example: I love building beautiful and usable web apps.",
+    'email' => 'you@example.com',
+    'twitter' => '@yourhandle'
+];
+
+$data = $defaults;
+$submitted = false;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $submitted = true;
+    // Pull form values, trim and sanitize minimally
+    foreach ($defaults as $k => $v) {
+        if (isset($_POST[$k]) && strlen(trim($_POST[$k])) > 0) {
+            $data[$k] = trim($_POST[$k]);
+        } else {
+            $data[$k] = $defaults[$k];
+        }
+    }
+}
+?>
 <!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Hello JOO — A Tiny Surprise</title>
+  <title>Self Introduction — <?php echo h($data['name']); ?></title>
   <style>
-    :root{
-      --bg1:#ff9a9e; --bg2:#fad0c4;
-      --card:#ffffffcc;
-      --accent:#ff6b6b;
-      --glass: rgba(255,255,255,0.12);
-      --mono: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-    }
-    html,body{height:100%; margin:0; font-family:var(--mono);}
-    body{
-      display:flex; align-items:center; justify-content:center;
-      background: linear-gradient(135deg, var(--bg1), var(--bg2));
-      background-attachment: fixed;
-    }
-    .wrap{
-      width:min(920px,94%); padding:28px; border-radius:18px;
-      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
-      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
-      backdrop-filter: blur(6px);
-      text-align:center;
-    }
-    h1{margin:6px 0 2px; font-size:2.2rem; letter-spacing:1px;}
-    p.lead{margin:0 0 18px; color:#2226; font-weight:600;}
-    .card{
-      background:var(--card); padding:18px; border-radius:12px;
-      display:flex; gap:12px; align-items:center; justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .greeting{
-      font-size:1.6rem; font-weight:700; min-width:260px;
-      display:flex; align-items:center; gap:12px; justify-content:center;
-    }
-    .greeting .name{color:var(--accent); font-family:Georgia, serif; font-size:1.9rem;}
-    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
-    button{
-      background:linear-gradient(180deg,var(--accent), #e94b4b);
-      border: none; color:white; padding:10px 14px; border-radius:10px; cursor:pointer;
-      font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,0.18);
-    }
-    .small{background:transparent; color:#333; border:1px solid rgba(0,0,0,0.06); box-shadow:none; font-weight:600;}
-    .msgbox{margin-top:18px; min-height:140px; padding:16px; border-radius:12px; background:linear-gradient(180deg,#fff, #fff0); text-align:left;}
-    .msg{font-size:1.05rem; line-height:1.5; margin:0; font-weight:600;}
-    .heart{font-size:2rem; color:var(--accent); transform-origin:center; display:inline-block;}
-    footer{margin-top:14px; font-size:0.9rem; color:#2226;}
-    /* typing cursor */
-    .typed{display:inline-block; border-right:2px solid rgba(0,0,0,0.22); padding-right:6px; animation:blink .9s steps(1) infinite;}
-    @keyframes blink{50%{border-color:transparent}}
-    /* floating hearts */
-    .hearts{position:fixed; left:0; top:0; pointer-events:none;}
-    .hearts i{position:absolute; opacity:0.9; transform-origin:center; animation:floatUp linear forwards;}
-    @keyframes floatUp{
-      from{transform:translateY(0) scale(1); opacity:1}
-      to{transform:translateY(-600px) scale(1.4); opacity:0}
+    :root{--bg:#f6f8fb;--card:#ffffff;--accent:#2563eb;--muted:#6b7280; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
+    body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef2ff, #f6f8fb); padding:24px;}
+    .wrap{max-width:920px; width:100%; background:var(--card); border-radius:12px; box-shadow:0 10px 30px rgba(32,41,60,0.08); padding:22px; display:grid; grid-template-columns: 1fr 380px; gap:18px;}
+    header{grid-column:1 / -1; display:flex; align-items:center; gap:14px;}
+    .avatar{width:78px; height:78px; border-radius:12px; background:linear-gradient(135deg,#a78bfa,#60a5fa); display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:28px;}
+    h1{margin:0; font-size:1.5rem;}
+    p.lead{margin:4px 0 0; color:var(--muted); font-size:0.95rem;}
+    .profile{padding:12px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef2ff;}
+    .meta{color:var(--muted); font-size:0.95rem; margin-top:8px;}
+    .bio{margin-top:12px; font-size:1rem; line-height:1.45;}
+    .right{padding:12px;}
+    label{display:block; font-weight:600; margin-top:10px; font-size:0.88rem;}
+    input[type="text"], textarea{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6eefc; font-size:0.95rem; margin-top:6px; box-sizing:border-box; background:#fff;}
+    textarea{min-height:120px; resize:vertical;}
+    .actions{margin-top:12px; display:flex; gap:8px; align-items:center;}
+    button{background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700;}
+    .secondary{background:transparent; color:var(--muted); border:1px solid #e6eefc;}
+    .note{font-size:0.85rem; color:var(--muted); margin-top:8px;}
+    footer{grid-column:1 / -1; text-align:center; font-size:0.82rem; color:var(--muted); margin-top:10px;}
+    @media (max-width:880px){
+      .wrap{grid-template-columns:1fr; padding:16px;}
+      .right{order:2;}
     }
   </style>
 </head>
 <body>
-  <div class="wrap" role="main" aria-live="polite">
-    <h1>Special Hello for <span style="color:#ff6b6b">JOO</span> 💫</h1>
-    <p class="lead">Click the button or press space / ← / → to cycle fun ways to say hello.</p>
+  <main class="wrap" role="main">
+    <header>
+      <div class="avatar" aria-hidden="true"><?php echo strtoupper(substr($data['name'],0,1)); ?></div>
+      <div>
+        <h1><?php echo h($data['name']); ?></h1>
+        <p class="lead"><?php echo h($data['role']); ?> • <?php echo h($data['location']); ?></p>
+      </div>
+    </header>
 
-    <div class="card">
-      <div class="greeting" aria-hidden="true">
-        <div style="font-size:1rem;">👋</div>
-        <div id="greetText" class="typed">Hello JOO</div>
-        <div class="name">— from someone who adores you</div>
+    <section class="profile" aria-labelledby="intro-heading">
+      <h2 id="intro-heading" style="margin:0 0 6px 0; font-size:1.05rem;">Introduction</h2>
+      <p class="meta">Email: <strong><?php echo h($data['email']); ?></strong> • Twitter: <strong><?php echo h($data['twitter']); ?></strong></p>
+
+      <div class="bio" id="bioText">
+        <?php echo nl2br(h($data['bio'])); ?>
       </div>
 
-      <div class="controls">
-        <button id="prev" class="small">⟨ Prev</button>
-        <button id="next">Next ✨</button>
-        <button id="surprise" class="small">Surprise me</button>
-        <button id="copy" class="small">Copy Greeting</button>
-      </div>
-    </div>
+      <?php if ($submitted): ?>
+        <div class="note" role="status" aria-live="polite">✅ HI Joooo</div>
+      <?php else: ?>
+        <div class="note">En madtidiraa.</div>
+      <?php endif; ?>
+    </section>
 
-    <div class="msgbox" id="msgbox">
-      <p class="msg" id="msg">A little digital note — you make my day brighter. <span class="heart">♥</span></p>
-    </div>
+    <aside class="right">
+      <form method="post" action="">
+        <label for="name">JOOOO</label>
+        <input id="name" name="name" type="text" value="<?php echo h($data['name']); ?>" />
 
-    <footer>Tip: Press <strong>Space</strong> to get a new greeting quickly.</footer>
-  </div>
+        <label for="role">Role / Title</label>
+        <input id="role" name="role" type="text" value="<?php echo h($data['role']); ?>" />
 
-  <div class="hearts" id="hearts"></div>
+        <label for="location">Location</label>
+        <input id="location" name="location" type="text" value="<?php echo h($data['location']); ?>" />
 
-  <script>
-    const greetings = [
-      "Hello JOO — my favorite hello.",
-      "Hey JOO! You caught my smile.",
-      "Hola JOO — mi corazón saluda.",
-      "Bonjour JOO — you look magnifique.",
-      "Ciao JOO — the world's brighter with you.",
-      "Hey there, JOO — just thinking of you.",
-      "Hi JOO! Sending you a warm hug.",
-      "Yo JOO — you + me = ☀️",
-      "Sup JOO? You're my today and tomorrow.",
-      "Greetings, Lady JOO of my heart.",
-      "Ahoy JOO! Captain of my thoughts.",
-      "Salutations JOO — you've stolen my attention.",
-      "Good day JOO — your smile is my sunrise.",
-      "Heeey JOO — let's make a memory today.",
-      "✨ Hello JOO ✨ — magic follows you.",
-      "JOO — if hellos were stars, you'd be a galaxy.",
-      "Knock-knock JOO — who? Your biggest fan!",
-      "Hello JOO — consider this a virtual bouquet.",
-      "Dearest JOO — a sweet hello from me.",
-      "Hi JOO — just wanted to say I adore you."
-    ];
+        <label for="email">Email</label>
+        <input id="email" name="email" type="text" value="<?php echo h($data['email']); ?>" />
 
-    const msgExtras = [
-      "Sending kisses and coffee ☕️",
-      "Counting moments until I see you again.",
-      "You make ordinary feel extraordinary.",
-      "This hello comes with a warm squeeze.",
-      "You're the best part of my day.",
-      "A tiny reminder: you're loved.",
-      "Thinking of the sound of your laugh.",
-      "If smiles were currency, you’d be rich.",
-      "Hope this finds you glowing."
-    ];
+        <label for="twitter">Twitter / Handle</label>
+        <input id="twitter" name="twitter" type="text" value="<?php echo h($data['twitter']); ?>" />
 
-    let idx = 0;
-    const greetText = document.getElementById('greetText');
-    const msg = document.getElementById('msg');
+        <label for="bio">Short bio</label>
+        <textarea id="bio" name="bio"><?php echo h($data['bio']); ?></textarea>
 
-    function showGreeting(i){
-      idx = (i + greetings.length) % greetings.length;
-      // typing effect
-      const full = greetings[idx];
-      greetText.textContent = '';
-      let k = 0;
-      clearTimeout(window._typeTimer);
-      function type(){
-        if(k <= full.length){
-          greetText.textContent = full.slice(0,k);
-          k++;
-          window._typeTimer = setTimeout(type, 32 + Math.random()*40);
-        } else {
-          // small blink caret
-          greetText.classList.add('typed');
-          setTimeout(()=> greetText.classList.remove('typed'), 700);
-        }
-      }
-      type();
+        <div class="actions">
+          <button type="submit">Update Intro</button>
+          <button type="button" class="secondary" onclick="document.getElementById('name').value='Your Name'; document.getElementById('role').value='Your Role (e.g., Web Developer)'; document.getElementById('location').value='City, Country'; document.getElementById('email').value='you@example.com'; document.getElementById('twitter').value='@yourhandle'; document.getElementById('bio').value='A short sentence about yourself. For example: I love building beautiful and usable web apps.';">Reset</button>
+        </div>
 
-      // update message
-      msg.textContent = msgExtras[Math.floor(Math.random()*msgExtras.length)];
-      burstHearts(6);
-    }
+        <p class="note">Note: This requires a PHP server to run. If you want a static HTML version instead, tell me and I'll create one.</p>
+      </form>
+    </aside>
 
-    document.getElementById('next').addEventListener('click', ()=> showGreeting(idx+1));
-    document.getElementById('prev').addEventListener('click', ()=> showGreeting(idx-1));
-    document.getElementById('surprise').addEventListener('click', ()=> showGreeting(Math.floor(Math.random()*greetings.length)));
-    document.getElementById('copy').addEventListener('click', ()=>{
-      navigator.clipboard?.writeText(greetings[idx])?.then(()=> {
-        const old = document.getElementById('copy').textContent;
-        document.getElementById('copy').textContent = 'Copied!';
-        setTimeout(()=> document.getElementById('copy').textContent = old, 1200);
-      }).catch(()=> {
-        alert('Copy failed — you can manually select the text.');
-      });
-    });
-
-    // keyboard controls
-    window.addEventListener('keydown', (e)=>{
-      if(e.code === 'Space'){ e.preventDefault(); showGreeting(idx+1); }
-      if(e.key === 'ArrowRight') showGreeting(idx+1);
-      if(e.key === 'ArrowLeft') showGreeting(idx-1);
-    });
-
-    // hearts burst
-    function burstHearts(n){
-      const container = document.getElementById('hearts');
-      for(let i=0;i<n;i++){
-        const el = document.createElement('i');
-        el.textContent = '♥';
-        const size = 14 + Math.random()*30;
-        el.style.left = (20 + Math.random()*60) + '%';
-        el.style.top = (50 + Math.random()*30) + '%';
-        el.style.fontSize = size + 'px';
-        el.style.opacity = 0.9;
-        el.style.animationDuration = (2 + Math.random()*2) + 's';
-        container.appendChild(el);
-        // remove after animation
-        setTimeout(()=> el.remove(), 3200);
-      }
-    }
-
-    // initial
-    showGreeting(0);
-  </script>
+    <footer>Made with ❤️ • Edit and style as you like.</footer>
+  </main>
 </body>
 </html>
