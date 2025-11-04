@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Hello JOO — A Tiny Surprise</title>
+  <style>
+    :root{
+      --bg1:#ff9a9e; --bg2:#fad0c4;
+      --card:#ffffffcc;
+      --accent:#ff6b6b;
+      --glass: rgba(255,255,255,0.12);
+      --mono: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    html,body{height:100%; margin:0; font-family:var(--mono);}
+    body{
+      display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      background-attachment: fixed;
+    }
+    .wrap{
+      width:min(920px,94%); padding:28px; border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06));
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
+      text-align:center;
+    }
+    h1{margin:6px 0 2px; font-size:2.2rem; letter-spacing:1px;}
+    p.lead{margin:0 0 18px; color:#2226; font-weight:600;}
+    .card{
+      background:var(--card); padding:18px; border-radius:12px;
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      flex-wrap:wrap;
+    }
+    .greeting{
+      font-size:1.6rem; font-weight:700; min-width:260px;
+      display:flex; align-items:center; gap:12px; justify-content:center;
+    }
+    .greeting .name{color:var(--accent); font-family:Georgia, serif; font-size:1.9rem;}
+    .controls{display:flex; gap:10px; align-items:center; flex-wrap:wrap;}
+    button{
+      background:linear-gradient(180deg,var(--accent), #e94b4b);
+      border: none; color:white; padding:10px 14px; border-radius:10px; cursor:pointer;
+      font-weight:700; box-shadow:0 6px 18px rgba(0,0,0,0.18);
+    }
+    .small{background:transparent; color:#333; border:1px solid rgba(0,0,0,0.06); box-shadow:none; font-weight:600;}
+    .msgbox{margin-top:18px; min-height:140px; padding:16px; border-radius:12px; background:linear-gradient(180deg,#fff, #fff0); text-align:left;}
+    .msg{font-size:1.05rem; line-height:1.5; margin:0; font-weight:600;}
+    .heart{font-size:2rem; color:var(--accent); transform-origin:center; display:inline-block;}
+    footer{margin-top:14px; font-size:0.9rem; color:#2226;}
+    /* typing cursor */
+    .typed{display:inline-block; border-right:2px solid rgba(0,0,0,0.22); padding-right:6px; animation:blink .9s steps(1) infinite;}
+    @keyframes blink{50%{border-color:transparent}}
+    /* floating hearts */
+    .hearts{position:fixed; left:0; top:0; pointer-events:none;}
+    .hearts i{position:absolute; opacity:0.9; transform-origin:center; animation:floatUp linear forwards;}
+    @keyframes floatUp{
+      from{transform:translateY(0) scale(1); opacity:1}
+      to{transform:translateY(-600px) scale(1.4); opacity:0}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap" role="main" aria-live="polite">
+    <h1>Special Hello for <span style="color:#ff6b6b">JOO</span> 💫</h1>
+    <p class="lead">Click the button or press space / ← / → to cycle fun ways to say hello.</p>
+
+    <div class="card">
+      <div class="greeting" aria-hidden="true">
+        <div style="font-size:1rem;">👋</div>
+        <div id="greetText" class="typed">Hello JOO</div>
+        <div class="name">— from someone who adores you</div>
+      </div>
+
+      <div class="controls">
+        <button id="prev" class="small">⟨ Prev</button>
+        <button id="next">Next ✨</button>
+        <button id="surprise" class="small">Surprise me</button>
+        <button id="copy" class="small">Copy Greeting</button>
+      </div>
+    </div>
+
+    <div class="msgbox" id="msgbox">
+      <p class="msg" id="msg">A little digital note — you make my day brighter. <span class="heart">♥</span></p>
+    </div>
+
+    <footer>Tip: Press <strong>Space</strong> to get a new greeting quickly.</footer>
+  </div>
+
+  <div class="hearts" id="hearts"></div>
+
+  <script>
+    const greetings = [
+      "Hello JOO — my favorite hello.",
+      "Hey JOO! You caught my smile.",
+      "Hola JOO — mi corazón saluda.",
+      "Bonjour JOO — you look magnifique.",
+      "Ciao JOO — the world's brighter with you.",
+      "Hey there, JOO — just thinking of you.",
+      "Hi JOO! Sending you a warm hug.",
+      "Yo JOO — you + me = ☀️",
+      "Sup JOO? You're my today and tomorrow.",
+      "Greetings, Lady JOO of my heart.",
+      "Ahoy JOO! Captain of my thoughts.",
+      "Salutations JOO — you've stolen my attention.",
+      "Good day JOO — your smile is my sunrise.",
+      "Heeey JOO — let's make a memory today.",
+      "✨ Hello JOO ✨ — magic follows you.",
+      "JOO — if hellos were stars, you'd be a galaxy.",
+      "Knock-knock JOO — who? Your biggest fan!",
+      "Hello JOO — consider this a virtual bouquet.",
+      "Dearest JOO — a sweet hello from me.",
+      "Hi JOO — just wanted to say I adore you."
+    ];
+
+    const msgExtras = [
+      "Sending kisses and coffee ☕️",
+      "Counting moments until I see you again.",
+      "You make ordinary feel extraordinary.",
+      "This hello comes with a warm squeeze.",
+      "You're the best part of my day.",
+      "A tiny reminder: you're loved.",
+      "Thinking of the sound of your laugh.",
+      "If smiles were currency, you’d be rich.",
+      "Hope this finds you glowing."
+    ];
+
+    let idx = 0;
+    const greetText = document.getElementById('greetText');
+    const msg = document.getElementById('msg');
+
+    function showGreeting(i){
+      idx = (i + greetings.length) % greetings.length;
+      // typing effect
+      const full = greetings[idx];
+      greetText.textContent = '';
+      let k = 0;
+      clearTimeout(window._typeTimer);
+      function type(){
+        if(k <= full.length){
+          greetText.textContent = full.slice(0,k);
+          k++;
+          window._typeTimer = setTimeout(type, 32 + Math.random()*40);
+        } else {
+          // small blink caret
+          greetText.classList.add('typed');
+          setTimeout(()=> greetText.classList.remove('typed'), 700);
+        }
+      }
+      type();
+
+      // update message
+      msg.textContent = msgExtras[Math.floor(Math.random()*msgExtras.length)];
+      burstHearts(6);
+    }
+
+    document.getElementById('next').addEventListener('click', ()=> showGreeting(idx+1));
+    document.getElementById('prev').addEventListener('click', ()=> showGreeting(idx-1));
+    document.getElementById('surprise').addEventListener('click', ()=> showGreeting(Math.floor(Math.random()*greetings.length)));
+    document.getElementById('copy').addEventListener('click', ()=>{
+      navigator.clipboard?.writeText(greetings[idx])?.then(()=> {
+        const old = document.getElementById('copy').textContent;
+        document.getElementById('copy').textContent = 'Copied!';
+        setTimeout(()=> document.getElementById('copy').textContent = old, 1200);
+      }).catch(()=> {
+        alert('Copy failed — you can manually select the text.');
+      });
+    });
+
+    // keyboard controls
+    window.addEventListener('keydown', (e)=>{
+      if(e.code === 'Space'){ e.preventDefault(); showGreeting(idx+1); }
+      if(e.key === 'ArrowRight') showGreeting(idx+1);
+      if(e.key === 'ArrowLeft') showGreeting(idx-1);
+    });
+
+    // hearts burst
+    function burstHearts(n){
+      const container = document.getElementById('hearts');
+      for(let i=0;i<n;i++){
+        const el = document.createElement('i');
+        el.textContent = '♥';
+        const size = 14 + Math.random()*30;
+        el.style.left = (20 + Math.random()*60) + '%';
+        el.style.top = (50 + Math.random()*30) + '%';
+        el.style.fontSize = size + 'px';
+        el.style.opacity = 0.9;
+        el.style.animationDuration = (2 + Math.random()*2) + 's';
+        container.appendChild(el);
+        // remove after animation
+        setTimeout(()=> el.remove(), 3200);
+      }
+    }
+
+    // initial
+    showGreeting(0);
+  </script>
+</body>
+</html>
