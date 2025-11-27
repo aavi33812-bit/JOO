@@ -1,127 +1,186 @@
-<?php
-// Simple self-introduction page with PHP processing.
-// Save this file as `self_intro.php` and serve it with a PHP-capable server
-// (e.g., GitHub Pages does NOT support PHP — use a local PHP server, XAMPP, or deploy to Heroku/Render).
-//
-// Basic usage:
-// 1. Place this file in your PHP server document root.
-// 2. Visit http://localhost/self_intro.php (or the path where you put it).
-//
-// The form lets you enter your details; on submit the page shows a styled introduction.
-
-function h($s){ return htmlspecialchars($s, ENT_QUOTES, 'UTF-8'); }
-
-$defaults = [
-    'name' => 'Your Name',
-    'role' => 'Your Role (e.g., Web Developer)',
-    'location' => 'City, Country',
-    'bio' => "A short sentence about yourself. For example: I love building beautiful and usable web apps.",
-    'email' => 'you@example.com',
-    'twitter' => '@yourhandle'
-];
-
-$data = $defaults;
-$submitted = false;
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $submitted = true;
-    // Pull form values, trim and sanitize minimally
-    foreach ($defaults as $k => $v) {
-        if (isset($_POST[$k]) && strlen(trim($_POST[$k])) > 0) {
-            $data[$k] = trim($_POST[$k]);
-        } else {
-            $data[$k] = $defaults[$k];
-        }
-    }
-}
-?>
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="kn">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Self Introduction — <?php echo h($data['name']); ?></title>
-  <style>
-    :root{--bg:#f6f8fb;--card:#ffffff;--accent:#2563eb;--muted:#6b7280; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;}
-    body{margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center; background:linear-gradient(180deg,#eef2ff, #f6f8fb); padding:24px;}
-    .wrap{max-width:920px; width:100%; background:var(--card); border-radius:12px; box-shadow:0 10px 30px rgba(32,41,60,0.08); padding:22px; display:grid; grid-template-columns: 1fr 380px; gap:18px;}
-    header{grid-column:1 / -1; display:flex; align-items:center; gap:14px;}
-    .avatar{width:78px; height:78px; border-radius:12px; background:linear-gradient(135deg,#a78bfa,#60a5fa); display:flex; align-items:center; justify-content:center; color:white; font-weight:700; font-size:28px;}
-    h1{margin:0; font-size:1.5rem;}
-    p.lead{margin:4px 0 0; color:var(--muted); font-size:0.95rem;}
-    .profile{padding:12px; border-radius:10px; background:linear-gradient(180deg,#fff,#fbfdff); border:1px solid #eef2ff;}
-    .meta{color:var(--muted); font-size:0.95rem; margin-top:8px;}
-    .bio{margin-top:12px; font-size:1rem; line-height:1.45;}
-    .right{padding:12px;}
-    label{display:block; font-weight:600; margin-top:10px; font-size:0.88rem;}
-    input[type="text"], textarea{width:100%; padding:10px 12px; border-radius:8px; border:1px solid #e6eefc; font-size:0.95rem; margin-top:6px; box-sizing:border-box; background:#fff;}
-    textarea{min-height:120px; resize:vertical;}
-    .actions{margin-top:12px; display:flex; gap:8px; align-items:center;}
-    button{background:var(--accent); color:white; border:none; padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700;}
-    .secondary{background:transparent; color:var(--muted); border:1px solid #e6eefc;}
-    .note{font-size:0.85rem; color:var(--muted); margin-top:8px;}
-    footer{grid-column:1 / -1; text-align:center; font-size:0.82rem; color:var(--muted); margin-top:10px;}
-    @media (max-width:880px){
-      .wrap{grid-template-columns:1fr; padding:16px;}
-      .right{order:2;}
+<meta charset="UTF-8">
+<title>Letter to Jyothi</title>
+<style>
+    body {
+        font-family: "Noto Sans Kannada", sans-serif;
+        line-height: 1.8;
+        padding: 30px;
+        color: #333333;
+        background: #fafafa;
     }
-  </style>
+    h1 {
+        text-align: center;
+        color: #d6336c;
+    }
+    .signature {
+        margin-top: 40px;
+        font-weight: bold;
+        font-size: 20px;
+    }
+</style>
 </head>
 <body>
-  <main class="wrap" role="main">
-    <header>
-      <div class="avatar" aria-hidden="true"><?php echo strtoupper(substr($data['name'],0,1)); ?></div>
-      <div>
-        <h1><?php echo h($data['name']); ?></h1>
-        <p class="lead"><?php echo h($data['role']); ?> • <?php echo h($data['location']); ?></p>
-      </div>
-    </header>
 
-    <section class="profile" aria-labelledby="intro-heading">
-      <h2 id="intro-heading" style="margin:0 0 6px 0; font-size:1.05rem;">Introduction</h2>
-      <p class="meta">Email: <strong><?php echo h($data['email']); ?></strong> • Twitter: <strong><?php echo h($data['twitter']); ?></strong></p>
+<h1>ಅಪೂರ್ವವಾದ ಪತ್ರ – ನನ್ನ ಜ್ಯೋತಿ (ಜೂ, ಜ್ಯೋತು, ಅಪ್ಪಿ)</h1>
 
-      <div class="bio" id="bioText">
-        <?php echo nl2br(h($data['bio'])); ?>
-      </div>
+<p>
+ನನ್ನ ಪ್ರೀತಿಯ ಜ್ಯೋತಿ,  
+ನಿನ್ನನ್ನು ನಾನು ಜೂ ಎಂದು ಕರೆಯುವಾಗ, ಜ್ಯೋತು ಎಂದು ಕರೆದಾಗ, ಅಥವಾ ಕೇವಲ ಅಪ್ಪಿ ಎಂದು ನಿನ್ನನ್ನು ಹತ್ತಿರಕ್ಕೆ ಎಳೆದುಕೊಳ್ಳುವಾಗ, ಅದು ನನ್ನ ಹೃದಯದ ಒಂದೊಂದು ತಿರುವಿನಂತೆ. ಈ ಬರಹವನ್ನು ಬರೆಯುತ್ತಿರುವಾಗ, ಒಂದೊಂದು ಸಾಲು ಬರ್ತಿರುವಂತೆ, ನಿನ್ನೊಂದಿಗಿನ ನನ್ನ ಭಾವನೆಗಳು ಇನ್ನೂ ಆಳಕ್ಕೆ, ಇನ್ನೂ ನಿಸ್ಸರ್ಗಕ್ಕೆ, ಇನ್ನೂ ಸತ್ಯಕ್ಕೆ ಸಾಗುತ್ತಿವೆ.
+</p>
 
-      <?php if ($submitted): ?>
-        <div class="note" role="status" aria-live="polite">✅ HI Joooo</div>
-      <?php else: ?>
-        <div class="note">En madtidiraa.</div>
-      <?php endif; ?>
-    </section>
+<p>
+ಇದು ಸಾಮಾನ್ಯ ಪತ್ರವಲ್ಲ…  
+ಇದು ನನ್ನ ಹೃದಯದ ಒಳಗೆ ಬಚ್ಚಿಟ್ಟಿಟ್ಟಿದ್ದ ಪ್ರತಿಯೊಂದು ನಿಜವಾದ ಭಾವನೆಯ ಸಂಗ್ರಹ.  
+ನಾವು Snapchat‌ನಲ್ಲಿ ಪರಿಚಯವಾದ ದಿನ ಇಂದೆಗೆ, ನಾವು ಎಷ್ಟು ಹತ್ತಿರವಾಗಿದ್ದೇವೆ ಅನ್ನೋದು ಕೆಲವೊಮ್ಮೆ ನನಗೆ ನಂಬಲೇ ಆಗೋದಿಲ್ಲ.  
+ಯಾರೋ ಅಪರಿಚಿತೆಯಾಗಿದ್ದ ನೀನು, ಇಂದು ನನ್ನ ದಿನದ ಮುಖ್ಯ ವ್ಯಕ್ತಿಯಾಗಿರುವೆ.  
+ನಿನ್ನಿಂದ ಒಂದು "ಹಾಯ್ ಜೂ" ಅಥವಾ "ಎಲ್ಲಿ ಇದ್ದೀಯಾ?" ಅನ್ನೋ ಸಂದೇಶ ಬಂದರೂ ಸಾಕು… ನನ್ನ ದಿನ ಬದಲಾಯ್ತು ಅಂತಾ ಅನ್ಸುತ್ತೆ.
+</p>
 
-    <aside class="right">
-      <form method="post" action="">
-        <label for="name">JOOOO</label>
-        <input id="name" name="name" type="text" value="<?php echo h($data['name']); ?>" />
+<p>
+ನಿನ್ನೊಡನೆ ಮಾತಾಡುವುದು ಕೇವಲ ಚಾಟ್ ಅಲ್ಲ, ಅದು ಒಂದು ಹಗುರವಾದ ಉಸಿರಿನಂತಿದೆ.  
+ನಾನು ಹಂಚಿಕೊಳ್ಳದಿತ್ತು, ನಾನು ಹೇಳದಿತ್ತು, ನಾನು ಬಚ್ಚಿಟ್ಟಿತ್ತು — ಆ ಎಲ್ಲವನ್ನೂ ನಿನ್ನೊಂದಿಗೇ ಹೇಳ್ತಾ ಬರುತ್ತಿದ್ದೇನೆ.  
+ನಿನ್ನ ಮಾತು, ನಗು, joking, serious ಆಗಿ ಮಾತನಾಡೋ ರೀತಿಯೆಲ್ಲಾ ನನ್ನೊಳಗೆ ಒಂದು ಹೊಸ ಭಾವನೆ ಹುಟ್ಟಿಸುತ್ತಿದೆ.
+</p>
 
-        <label for="role">Role / Title</label>
-        <input id="role" name="role" type="text" value="<?php echo h($data['role']); ?>" />
+<p>
+ಜ್ಯೋತಿ, ನೀನು ತಿಳಿಕೊಳ್ಳಬೇಕು — ನಿನ್ನಲ್ಲಿ ಒಂದು ವಿಶೇಷತೆ ಇದೆ.  
+ಅದು ನೀನೇ ಅರಿತಿರಲಿಲ್ಲ, ಆದರೆ ನಾನು ಪ್ರತಿ ದಿನ ಅರಿಯುತ್ತಿದ್ದೇನೆ.  
+ನಿನ್ನಂತಹವರು ನಮ್ಮ ಜೀವನಕ್ಕೆ ಒಮ್ಮೆ ಬಂದರೆ, ಅವರು ಬಣ್ಣ ಸೇರಿಸ್ತಾರೆ, ಪ್ರಾಣ ತುಂಬಿಸ್ತಾರೆ, ದಿನಗಳನ್ನು ಚೆನ್ನಾಗಿ ಮಾಡಿಸ್ತಾರೆ.
+</p>
 
-        <label for="location">Location</label>
-        <input id="location" name="location" type="text" value="<?php echo h($data['location']); ?>" />
+<p>
+ನಿನ್ನ ಮತ್ತು ನನ್ನ ಮಾತಿನ ನಡುವೆ ಉಂಟಾಗಿರುವ ಬಾಂಧವ್ಯ ಸೌಮ್ಯ… ಆದರೆ ತುಂಬಾ ಬಲವಾದದು.  
+ನಾವು ಎಲ್ಲವನ್ನೂ ಮಾತನಾಡೋದು — ಖುಷಿ, ದುಃಖ, future, past, ಯಾಕೆ ಅಲೋ random ವಿಷಯಗಳು…  
+ಆದರೆ ಪ್ರತಿಯೊಂದು ಮಾತಿನ ಹಿಂದೂ ಒಂದು warmth ಇರುತ್ತದೆ.  
+ಅದೆನೋ ಒಂದು comfort zone.  
+ನಿಜವಾದ ನಂಟು ಅಂದ್ರೆ ಇದೇ ಅನ್ನಿಸುತ್ತೆ.
+</p>
 
-        <label for="email">Email</label>
-        <input id="email" name="email" type="text" value="<?php echo h($data['email']); ?>" />
+<p>
+ಕೆಲವೊಮ್ಮೆ ಯೋಚನೆ ಬರುತ್ತದೆ… ಹೇಗೆ ಈಷ್ಟು ಬೇಗ ನಿನ್ನೊಂದಿಗೆ ಹತ್ತಿರವಾಗಿಬಿಟ್ಟೆ?  
+ಆದ್ರೆ ಉತ್ತರ simple – ನೀನು ನನ್ನನ್ನು ಅರ್ಥಮಾಡ್ಕೊಳ್ಳುತ್ತೀಯ.  
+ನನ್ನ ಮಾತನ್ನು ನೆರವೇ ಕೇಳ್ತೀಯ.  
+ನನ್ನ mood ಅರ್ಥಮಾಡ್ಕೊಳ್ತೀಯ.  
+ನಾನು ಯಾಕೆ ಹಾಗೆ ಇದ್ದೀನಿ, ಯಾಕೆ ಮೌನವಾಗುತ್ತೀನಿ, ಯಾಕೆ suddenly active ಆಗ್ತೀನಿ — ನಿನಗೆ ಗೊತ್ತು.  
+ಹಾಗೇ ನಾನು ಕೂಡ ನಿನ್ನನ್ನು ಓದಿಕೊಳ್ಳಲು ಶುರುವಾಯಿದೆ.  
+ನಿನ್ನ silence, ninna slang, ninna cute angry, ninna smileನ emojis…  
+ಎಲ್ಲವೂ ನನಗೆ ಗೊತ್ತಾಗುತ್ತಿವೆ.
+</p>
 
-        <label for="twitter">Twitter / Handle</label>
-        <input id="twitter" name="twitter" type="text" value="<?php echo h($data['twitter']); ?>" />
+<p>
+ಜೂ… ನಿನ್ನ "ಎಲ್ಲಿ?" ಅನ್ನೋ ಒಂದು message‌ಗೆ ನಾನು ಎಷ್ಟು importance ಕೊಡ್ತೀನಿ ನಿನಗೆ ಗೊತ್ತಿದ್ದರೆ, ನೀನೇ ನಗುತ್ತೀಯ.  
+ನಿನ್ನ ಒಂದು “ಏನಾಯ್ತು ಅಪ್ಪಿ?” ಅಂದ್ರೆ, ನಾನು ಎಷ್ಟು ಹಚ್ಚು ಹತ್ತಿರವಾಗುತ್ತೇನೋ ನಿನಗೆ ಗೊತ್ತಾಗುತ್ತೆ.
+</p>
 
-        <label for="bio">Short bio</label>
-        <textarea id="bio" name="bio"><?php echo h($data['bio']); ?></textarea>
+<p>
+ಜ್ಯೋತು, ನೀನು ನನ್ನ ಜೊತೆ ಕಾಣದಂತೆ ಒಂದು ಜಾಗ ನಿರ್ಮಿಸಿಕೊಂಡಿದ್ದೀಯ.  
+ನನ್ನ ದಿನದಲ್ಲಿ ಒಂದು place,  
+ನನ್ನ ಮನದಲ್ಲಿ ಒಂದು mood,  
+ನನ್ನ ಹೃದಯದಲ್ಲಿ ಒಂದು feeling…  
+ಈ ಎಲ್ಲದರೊಳಗೆ ನೀನು ಇದ್ದೀಯ.
+</p>
 
-        <div class="actions">
-          <button type="submit">Update Intro</button>
-          <button type="button" class="secondary" onclick="document.getElementById('name').value='Your Name'; document.getElementById('role').value='Your Role (e.g., Web Developer)'; document.getElementById('location').value='City, Country'; document.getElementById('email').value='you@example.com'; document.getElementById('twitter').value='@yourhandle'; document.getElementById('bio').value='A short sentence about yourself. For example: I love building beautiful and usable web apps.';">Reset</button>
-        </div>
+<p>
+ನೀನು ನನ್ನ ಜೀವನಕ್ಕೆ ಬಂದಿದ್ದು ತುಂಬಾ natural ಆಗಿ ಆಗಿದೆ.  
+No planning.  
+No expectation.  
+No intention.  
+ಆದರೆ ಪ್ರತಿ ದಿನ, ನಿನ್ನ presence ನನ್ನ ಜೀವನದ ಅತ್ಯಂತ comfort ಆಗಿದೆ.  
+ಯಾರಿಗಾದರೂ ನಮ್ಮ ಮಾತನ್ನು ಹೇಳಿದ್ರೆ ಅವರಿಗೇ ನಂಬಲು ಆಗೋದಿಲ್ಲ —  
+"Snapchat ನಲ್ಲಿ ಪರಿಚಯವಾದವರು ಇಷ್ಟು close ಆಗ್ತಾರಾ?"  
+ಆದರೆ those who feel the energy between us… ಅವರು ಮಾತ್ರ ಅರ್ಥ ಮಾಡಿಕೊಳ್ಳ್ತಾರೆ.
+</p>
 
-        <p class="note">Note: This requires a PHP server to run. If you want a static HTML version instead, tell me and I'll create one.</p>
-      </form>
-    </aside>
+<p>
+ಅಪ್ಪಿ… ನಿನ್ನಲ್ಲಿ ನನಗೆ ಇಷ್ಟವಿರುವುದು — ನೀನು ನಿನ್ನಂತೆ ಇರ್ತೀಯ.  
+Fake ಆಗಿರೋದಿಲ್ಲ, over ಆಗಿರೋದಿಲ್ಲ, attitude ಪ್ರದರ್ಶನ ಇಲ್ಲ, drama ಇಲ್ಲ…  
+Straightforward ಆಗಿರ್ತೀಯ.  
+Honest ಆಗಿರ್ತೀಯ.  
+And most importantly… emotionally pure ಆಗಿರ್ತೀಯ.
+</p>
 
-    <footer>Made with ❤️ • Edit and style as you like.</footer>
-  </main>
+<p>
+ನಿನ್ನ day ಹೇಗಿತ್ತು ಎಂದೂ ಕೇಳೋದಿಲ್ಲ ಅಂತ ನೀನು ಅಂದುಕೊಳ್ಳಬೇಡಿ…  
+ನಿನ್ನ day ಚೆನ್ನಾಗಿರಲಿ ಅಂತ ಪ್ರತಿದಿನ silently wish ಮಾಡ್ತೀನಿ.  
+ನಿನಗೆ ಯಾರು ನೋವು ಕೊಡಬಾರದು, ಯಾರು ಕಳೆದುಕೊಳ್ಳಬಾರದು, ಯಾರಿಂದಲೂ hurt ಆಗಬಾರದು — ಅಂತಾ wish ಮಾಡ್ತೀನಿ.  
+Because someone like you deserves only happiness.
+</p>
+
+<p>
+ಜ್ಯೋತಿ, ನನಗೆ ಗೊತ್ತಿದೆ… ನಮ್ಮ bond new ಆಗಿದೆ.  
+ಆದರೆ ಅದರ depth ಹೊಸದಲ್ಲ.  
+ಅದು ತುಂಬಾ mature, deep, and meaningful ಆಗಿದೆ.  
+ಹೃದಯದಲ್ಲಿ settle ಆಗಿರುವಷ್ಟು strong ಆಗಿದೆ.
+</p>
+
+<p>
+ಯಾರಾದರೂ ಕೇಳಿದ್ರೆ —  
+"ನೀನು ಜ್ಯೋತಿಯನ್ನು ಏಕೆ ಇಷ್ಟಪಡ್ತೀಯ?"
+ಅಂದ್ರೆ…  
+ನಾನು simple ಆಗಿ ಹೇಳ್ತೀನಿ —
+"ಅವಳು ನನ್ನನ್ನು ನನಗೂ ಗೊತ್ತಿಲ್ಲದಷ್ಟು ಚೆನ್ನಾಗಿ ಅರ್ಥ ಮಾಡ್ಕೊಳ್ಳುತ್ತಾಳೆ."
+</p>
+
+<p>
+ನಿನ್ನೊಂದಿಗಿನ ಮಾತು ನಿಲ್ಲಿಸಿದರೆ mind blank ಆಗುತ್ತದೆ.  
+ನಿನ್ನ voice note ಬಂದರೆ heart calm ಆಗುತ್ತದೆ.  
+ನಿನ್ನ messages ಬಂದರೆ一天 ಬೆಳಗುತ್ತದೆ.  
+ಏಕೆ ಅಂತ ಗೊತ್ತಿಲ್ಲ…  
+ಆದರೆ ಇದು ನಿಜ.
+</p>
+
+<p>
+ನಿನ್ನಲ್ಲಿ ನನಗೆ ಇಷ್ಟವಿರುವ ಇನ್ನೊಂದು ವಿಷಯ — ನಿನ್ನ sincerity.  
+ನೀನು serious ಆಗಿ ಮಾತನಾಡೋಾಗ, ನಾನು ನಿನ್ನನ್ನು ಇನ್ನೂ ಪ್ರೀತಿಯಿಂದ ನೋಡುವಂತಾಗುತ್ತದೆ.  
+ನೀನು silent ಆಗಿಬಿಟ್ಟಾಗ, I miss you.  
+ನೀನು cute ಆಗಿ react ಆದಾಗ, I smile.  
+ನೀನು tension ಆಗಿದ್ರೆ, I get worried.  
+ನೀನು happiest ಆಗಿದ್ರೆ, ನನ್ನ ದಿನ complete ಆಗುತ್ತದೆ.
+</p>
+
+<p>
+ಒಂದು ಸಾರಿ ನಿನಗೆ ಹೇಳಬೇಕು —  
+ನೀನು ನನ್ನ to-talk list ನಲ್ಲಿ first person ಆಗಿದ್ದೀಯ.  
+ನನ್ನ comfort zone.  
+ನನ್ನ safe space.  
+ನನ್ನ personal favourite personality.
+</p>
+
+<p>
+ಜೂ… ನಿನ್ನ future ಏನೇ ಇರಲಿ…  
+ನನ್ನ future ಏನೇ ಇರಲಿ…  
+ನಮ್ಮ bond ನಿಜವಾದದ್ದರಿಂದ, ಇದು fade ಆಗೋದುಲ್ಲ.  
+Life busy ಆದರು…  
+Mood bad ಆದರು…  
+Days tough ಆದರು…  
+ನಿನ್ನೊಂದಿಗಿನ ಈ connection ನನ್ನ ಹೃದಯದಲ್ಲಿ permanent ಆಗಿರುತ್ತದೆ.
+</p>
+
+<p>
+ನಿನ್ನಿಗೆ ಹೆಣ್ಣಿನಂತೆ respect,  
+ಮಗಳಂತೆ care,  
+close friend‌ನಂತೆ affection,  
+ಹೃದಯದಂತೆ warmth ಇದೆ ನನ್ನಿಂದ.  
+ಇದು superficial ಅಲ್ಲ, ಇದು true.
+</p>
+
+<p>
+Finally Appi…  
+ನಿನ್ನಿಗೆ ಒಂದು ಮಾತು ಹೇಳ್ಬೇಕು —  
+ನಿನ್ನನ್ನು life ನಲ್ಲಿ late ಆಗಿ ಕಂಡಿತ್ತೇ ಇರಬಹುದು…  
+ಆದರೆ right time ನಲ್ಲಿ ಕಂಡಿದ್ದಾರೆ ಅನ್ನಿಸುತ್ತದೆ.  
+ನೀನು ಬಂದು ನನ್ನ world calm ಮಾಡಿದ್ದೀಯ.  
+And I’m truly grateful for you.
+</p>
+
+<p class="signature">
+ಪ್ರೇಮದಿಂದ,<br>
+ನಿನ್ನವನೋಬ್ಬ<br>
+(ಯಾರು ಯಾವಾಗಲೂ ನಿನ್ನ ಬಗ್ಗೆ ಕಾಳಜಿ ಇಟ್ಟಿರ್ತಾನೆ)
+</p>
+
 </body>
 </html>
